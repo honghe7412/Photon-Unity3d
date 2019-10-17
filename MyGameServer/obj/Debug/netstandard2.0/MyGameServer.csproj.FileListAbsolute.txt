@@ -1,0 +1,11 @@
+D:\Program Files\Photon\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\netstandard2.0\MyGameServer.deps.json
+D:\Program Files\Photon\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\netstandard2.0\MyGameServer.dll
+D:\Program Files\Photon\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\netstandard2.0\MyGameServer.pdb
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.csprojAssemblyReference.cache
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.csproj.CoreCompileInputs.cache
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.AssemblyInfoInputs.cache
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.AssemblyInfo.cs
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.csproj.CopyComplete
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.dll
+E:\WorkSpace\MyGameServer\MyGameServer\obj\Debug\netstandard2.0\MyGameServer.pdb
+D:\Program Files\Photon\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\MyGameServer\bin\netstandard2.0\log4net.config
