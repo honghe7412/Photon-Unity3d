@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using System.Text;
 using Photon.SocketServer;
 using ExitGames.Logging;
-using ExitGames.Logging.Log4Net;
 using System.IO;
+using ExitGames.Logging.Log4Net;
 using log4net.Config;
 
 namespace MyGameServer
 {
-    public class MyGameServer : ApplicationBase
+    class MyGameServer : ApplicationBase
     {
         public static readonly ILogger log = LogManager.GetCurrentClassLogger();
-        //和客户端的链接
-        protected override PeerBase CreatePeer(InitRequest initRequest) //photon帮助管理ClientPeer
+        protected override PeerBase CreatePeer(InitRequest initRequest) //客户端接连TODO 
         {
-            log.Info("ClientConected");
+            log.Info("一个客户端连接过来了。。。。");
             return new ClientPeer(initRequest);
         }
-        //初始化
-        protected override void Setup()
+
+        protected override void Setup() //初始化 TODO
         {
+            //log initialize
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");
-            FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath,"log4net.config"));
+
+            FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));
 
             if (configFileInfo.Exists)
             {
-                LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance); //设置使用的哪个日志的插件
-                XmlConfigurator.ConfigureAndWatch(configFileInfo); //让这个插件读取配置文件
+                LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);//让photon知道使用的是Log4NetLog插件
+                XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net这个插件读取配置文件
             }
 
-            log.Info("Setup Complete");
+            log.Info("Initialization complete！");
         }
-        //server关闭时
-        protected override void TearDown()
+
+        protected override void TearDown()  //服务器关闭 TODO
         {
-            log.Info("Shut down Complete");
+            log.Info("Server shut down！");
         }
     }
 }

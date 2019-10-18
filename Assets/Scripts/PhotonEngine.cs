@@ -5,23 +5,13 @@ using ExitGames.Client.Photon;
 
 public class PhotonEngine : Singleton<PhotonEngine>, IPhotonPeerListener
 {
-    public static PhotonPeer Peer { get { return peer; } }
     private static PhotonPeer peer;
-
+    public static PhotonPeer Peer { get { return peer; } }
     private void Start()
     {
-        //listener:接受服务器端相应
-        peer = new PhotonPeer(this, ConnectionProtocol.Udp); //协议类型
-        peer.Connect("127.0.0.1:4530", "MyGame1");
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        if (peer != null && peer.PeerState== PeerStateValue.Connected)
-        {
-            peer.Disconnect();
-        }
+        //链接服务器
+        peer = new PhotonPeer(this, ConnectionProtocol.Udp);
+        peer.Connect("127.0.0.1:5055", "MyGame1");
     }
 
     private void Update()
@@ -29,30 +19,57 @@ public class PhotonEngine : Singleton<PhotonEngine>, IPhotonPeerListener
         peer.Service();
     }
 
-    public void DebugReturn(DebugLevel level, string message)
+    protected override void OnDestroy()
     {
-        throw new System.NotImplementedException();
-    }
-    
-    public void OnEvent(EventData eventData) //服务器想客户端发起请求
-    {
-        throw new System.NotImplementedException();
+        //base.OnDestroy();
+        if (peer != null && peer.PeerState == PeerStateValue.Connected)
+        {
+            peer.Disconnect(); //程序退出，关闭连接
+        }
     }
 
-    public void OnOperationResponse(OperationResponse operationResponse) //发起请求的处理
+    void IPhotonPeerListener.DebugReturn(DebugLevel level, string message)
     {
-        switch (operationResponse.OperationCode)
+
+    }
+
+    void IPhotonPeerListener.OnEvent(EventData eventData) //响应服务器端发送过来的时间
+    {
+        switch (eventData.Code)
         {
             case 1:
-                Debug.Log("收到了客户端相应");
+                Dictionary<byte, object> data = eventData.Parameters;
+                object IntValue, StringValue; ;
+                data.TryGetValue(1, out IntValue);
+                data.TryGetValue(2, out StringValue);
+                Debug.Log("Event." + IntValue.ToString() + " , " + "Event." + StringValue.ToString());
                 break;
+
             default:
                 break;
         }
     }
 
-    public void OnStatusChanged(StatusCode statusCode) //服务器连接发生改变的时候触发
+    void IPhotonPeerListener.OnOperationResponse(OperationResponse operationResponse) //接收服务器回应
     {
-        Debug.Log(statusCode);
+        switch (operationResponse.OperationCode)
+        {
+            case 1:
+                Debug.Log("收到了客户端响应"+ operationResponse.OperationCode);
+                Dictionary<byte, object> data = operationResponse.Parameters;
+                object IntValue,StringValue; ;
+                data.TryGetValue(1, out IntValue);
+                data.TryGetValue(2, out StringValue);
+                Debug.Log(IntValue.ToString() + " , " + StringValue.ToString());
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    void IPhotonPeerListener.OnStatusChanged(StatusCode statusCode) //连接状态
+    {
+
     }
 }
