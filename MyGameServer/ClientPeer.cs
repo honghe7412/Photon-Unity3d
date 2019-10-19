@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
+using MyGameServer.Manage;
 
 namespace MyGameServer
 {
@@ -37,8 +38,12 @@ namespace MyGameServer
                     OperationResponse opResponse = new OperationResponse(operationRequest.OperationCode);
 
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>(); //所要传递的数据
-                    data2.Add(1, 100);
-                    data2.Add(2, "Server");
+
+                    IUserManage user = new UserManage();
+
+                    data2.Add(1, user.GetById(1).Username);
+                    data2.Add(2, user.GetById(1).Password);
+
                     opResponse.SetParameters(data2); //向客户端传递数据；
                     SendOperationResponse(opResponse, sendParameters); //给客户端一个响应 必须有请求，才能有响应；
                     

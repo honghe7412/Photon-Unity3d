@@ -6,6 +6,7 @@ using ExitGames.Logging;
 using System.IO;
 using ExitGames.Logging.Log4Net;
 using log4net.Config;
+using MyGameServer.Manage;
 
 namespace MyGameServer
 {
@@ -32,6 +33,11 @@ namespace MyGameServer
             }
 
             log.Info("Initialization complete！");
+
+            IUserManage userManage = new UserManage();
+            
+            log.Info(userManage.VerifiyUser("学习database", "photon"));
+            log.Info(userManage.VerifiyUser("学习database", "photon1"));
         }
 
         protected override void TearDown()  //服务器关闭 TODO

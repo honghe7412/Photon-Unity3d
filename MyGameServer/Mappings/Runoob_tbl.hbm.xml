@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="MyGameServer"
+                   namespace="MyGameServer.Model">
+
+  <class name="Runoob_tbl" table="runoob_tbl">
+    <id name="ID" column="runoob_id" type="Int32">
+      <generator class="native" />
+    </id>
+    <property name="Username" column="runoob_title" type="String"/>
+    <property name="Password" column="runoob_author" type="String"/>
+    <property name="RegisterDate" column="submission_date" type="Date"/>
+  </class>
+
+</hibernate-mapping>
