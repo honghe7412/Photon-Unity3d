@@ -15,6 +15,6 @@ namespace MyGameServer.Manage
         Runoob_tbl GetById(int id);
         Runoob_tbl GetByUserName(string userName);
         ICollection<Runoob_tbl> GetAllUser();
-        bool VerifiyUser(string userName, string password);
+        bool VerifiyUserAndPassword(string userName, string password);
     }
 }

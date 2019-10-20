@@ -80,7 +80,7 @@ namespace MyGameServer.Manage
             }
         }
 
-        public bool VerifiyUser(string userName, string password)
+        public bool VerifiyUserAndPassword(string userName, string password)
         {
             using (ISession session = NhibernateHelper.OpenSession()) //using 代表用完session就释放
             {
@@ -90,6 +90,21 @@ namespace MyGameServer.Manage
                                 .Add(Restrictions.Eq("Password", password))
                                 .UniqueResult<Runoob_tbl>();
 
+                if (user == null)
+                    return false;
+                else
+                    return true;
+            }
+        }
+
+        public bool VerifiyUser(string userName)
+        {
+            using (ISession session = NhibernateHelper.OpenSession()) //using 代表用完session就释放
+            {
+                Runoob_tbl user = session
+                                .CreateCriteria(typeof(Runoob_tbl))
+                                .Add(Restrictions.Eq("Username", userName))
+                                .UniqueResult<Runoob_tbl>();
                 if (user == null)
                     return false;
                 else

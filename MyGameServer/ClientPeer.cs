@@ -4,6 +4,9 @@ using System.Text;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using MyGameServer.Manage;
+using MyGameServer.Handler;
+using Common.Tools;
+using Common;
 
 namespace MyGameServer
 {
@@ -23,7 +26,17 @@ namespace MyGameServer
         //操作客户端请求 TODO OnOperationRequest......
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
-            switch (operationRequest.OperationCode)
+            BaseHandler handler = DicTool.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.handlerDic, (OperationCode)operationRequest.OperationCode);
+
+            if (handler != null)
+                handler.OnOperationRequest(operationRequest, sendParameters, this);
+            else
+            {
+                BaseHandler deflaut = DicTool.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.handlerDic, OperationCode.Unknow);
+                deflaut.OnOperationRequest(operationRequest, sendParameters, this);
+            }
+
+            /*switch (operationRequest.OperationCode)
             {
                 case 1:
                     MyGameServer.log.Info("收到了一个客户端请求");
@@ -38,18 +51,14 @@ namespace MyGameServer
                     OperationResponse opResponse = new OperationResponse(operationRequest.OperationCode);
 
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>(); //所要传递的数据
-
-                    IUserManage user = new UserManage();
-
-                    data2.Add(1, user.GetById(1).Username);
-                    data2.Add(2, user.GetById(1).Password);
-
+                    data2.Add(1, 100);
+                    data2.Add(2, "Server");
                     opResponse.SetParameters(data2); //向客户端传递数据；
                     SendOperationResponse(opResponse, sendParameters); //给客户端一个响应 必须有请求，才能有响应；
-                    
+
                     EventData ed = new EventData(1); //1代表事件代码；
                     ed.SetParameters(data2);
-                    SendEvent(ed,new SendParameters());  //向客户端发送数据和SendOperationResponse有区别，可以不必有响应；
+                    SendEvent(ed, new SendParameters());  //向客户端发送数据和SendOperationResponse有区别，可以不必有响应；
 
                     break;
                 case 2:
@@ -58,7 +67,7 @@ namespace MyGameServer
 
                 default:
                     break;
-            }
+            }*/
         }
     }
 }
